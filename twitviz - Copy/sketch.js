@@ -22,6 +22,7 @@ let histogram_y = 0;
 let histogram_width = 0;
 let histogram_height = 0;
 const max_bar_height = 1000;
+const load_factor = 1;
 
 let veryfirstguy ="";
 let end_time = 0;
@@ -44,7 +45,7 @@ function preload() {
 
 function setup() { 
   slider = createSlider(0, 10, 0, 1);
-  slider.position(windowWidth/30, windowHeight/20);
+  slider.position((windowWidth/30)/load_factor, (windowHeight/20)/load_factor);
   slider.style('width', '500px');
   slider.style('height', '300px');
   restartNetwork();
@@ -61,10 +62,10 @@ function setup() {
 
   bar_times = int( end_time/num_bars )
   hist_times = Array.from({ length: num_bars}, (_, i) => bar_times + (i * bar_times))
-  histogram_x = windowWidth/30;
-  histogram_y = 8*windowHeight/10;
-  histogram_width = 8*windowWidth/30;
-  histogram_height = 1*windowHeight/10;
+  histogram_x = (windowWidth/30)/load_factor;
+  histogram_y = (8*windowHeight/10)/load_factor;
+  histogram_width = (8*windowWidth/30)/load_factor;
+  histogram_height = (1*windowHeight/10)/load_factor;
 } 
 
 function mouseClicked() {
@@ -89,13 +90,13 @@ function draw() {
   timescale = 120;
   
   fill(200);
-  textSize(windowHeight/40);
+  textSize((windowHeight/40)/load_factor);
 
-  text(formatTime(round(exp(adjFrame/timescale),1)), windowWidth/30, windowHeight/10);
+  text(formatTime(round(exp(adjFrame/timescale),1)), (windowWidth/30)/load_factor, (windowHeight/10)/load_factor);
 
-  text("Adjust Demotion", windowWidth/30, 2*windowHeight/10);
+  text("Adjust Demotion", (windowWidth/30)/load_factor, (2*windowHeight/10)/load_factor);
 
-  text("Reset [SPACE]", windowWidth/30, 3*windowHeight/10);
+  text("Reset [SPACE]", (windowWidth/30)/load_factor, (3*windowHeight/10)/load_factor);
 
 
   if (!pause)
@@ -131,16 +132,16 @@ function restartNetwork()
   //calculate distances
 
   scale(0.25);
-  defaultradius = 32;
+  defaultradius = (windowHeight/20)/load_factor;
   timescale = 30;
-  createCanvas(windowWidth,windowHeight);
+  createCanvas(windowWidth/load_factor,windowHeight/load_factor);
   lastName = table.getString(1,0);
 
   network = new Network(0, 0);
   mainName = table.getString(0,1);
   minTime = 10000000;
-  mainX = windowWidth/2;
-  mainY = windowHeight/2;
+  mainX = 1.4*(windowWidth/2)/load_factor;
+  mainY = (windowHeight/2)/load_factor;
   veryfirstguy = nodes_table.getString(0, 0);
 
  var newNode = new Neuron(mainX, mainY, veryfirstguy, true, defaultradius*4);
@@ -165,7 +166,7 @@ function restartNetwork()
     let time = int(parseFloat(nodes_table.getString(r,1)));
    // console.log(time);
     let angle = random(0, TWO_PI);
-    let distance = random(40,windowHeight/2);
+    let distance = random(40,windowHeight/2)/load_factor;
     if (parentMap.get(id) == veryfirstguy)
     {
      map1.set(id, new Neuron(mainX+cos(angle)*distance, mainY+sin(angle)*distance, id, true, defaultradius, time, "second"));
@@ -288,7 +289,7 @@ function formatTime (seconds)
   hours = round(seconds/3600,0);
   minutes = round((seconds%3600)/60, 0); 
   finseconds = round((seconds%3600)%60, 1);
-  return (hours + "hours, " + minutes + " min, "  + finseconds + " seconds after tweet");
+  return (nf(hours, 2, 0) + " hours, " + nf(minutes, 2, 0) + " min, "  + nf(finseconds, 2, 1) + " seconds after tweet");
 }
 
 function Network(x, y) {
@@ -444,7 +445,7 @@ function Neuron(x, y, name, active, radius, time, isFirst) {
   this.display = function() {
     //console.log(followerMap.get(this.name));
    
-    let scaler = int(followerMap.get(this.name))/4000+10;
+    let scaler = (int(followerMap.get(this.name))/4000+10)/load_factor;
    
    // console.log(scaler);
     //console.log(this.isTouched);
@@ -462,7 +463,7 @@ function Neuron(x, y, name, active, radius, time, isFirst) {
       if (this.isFirst =='first')
       {
         fill(200,154,222, 150);
-        scaler = 200;
+        scaler = 200/load_factor;
 
       }
       if (this.isFirst == 'second')
