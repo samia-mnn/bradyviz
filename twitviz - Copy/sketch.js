@@ -23,7 +23,7 @@ let histogram_width = 0;
 let histogram_height = 0;
 const max_bar_height = 1000;
 
-
+let veryfirstguy ="";
 let end_time = 0;
 let bar_times = 0;
 const num_bars = 150;
@@ -233,6 +233,7 @@ function Connection(from, to,w) {
   this.sending = false;
   this.sender = null;
   this.output = 0;
+  this.activate = true;
   
   
   this.feedforward = function(val) {
@@ -266,12 +267,19 @@ function Connection(from, to,w) {
     
     if (this.sending) {
       hasSent = true;
-      fill(0);
-      strokeWeight(1);
-      ellipse(this.sender.x, this.sender.y, 2, 2);
+      
+      if (this.activate)
+      {
+        
+        ellipse(this.sender.x, this.sender.y, 2, 2);
+      }
+      
     }
-   
-    
+  }
+
+  this.deactivate = function()
+  {
+    this.activate = false;
   }
 }
 
@@ -351,7 +359,17 @@ function Network(x, y) {
   this.display = function() {
     push();
     translate(this.position.x, this.position.y);
+    fill(0);
+    strokeWeight(1);
     for (var i = 0; i < this.connections.length; i++) {
+      //maybe make it a function of the follower count
+     if (this.connections[i].a.isSending)//(followerMap.get((this.connections[i].a.name)) >= 0.5*(followerMap.get(veryfirstguy)))
+       {
+        if (random() < 0.18)
+        {
+          this.connections[i].deactivate();
+        }
+      }
       this.connections[i].display();
     }
 
