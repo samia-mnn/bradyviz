@@ -31,6 +31,7 @@ const num_bars = 150;
 let hist_times = new Array(num_bars).fill(0);
 let hist_heights = new Array(num_bars).fill(0);
 let cur_bar = 0
+let tweetimg;
 
 
 function preload() {
@@ -38,6 +39,7 @@ function preload() {
   nodes_table = loadTable('nodes_tb.csv', 'csv', 'header');
   info_table = loadTable('users_tb.csv', 'csv', 'header');
   popsound = loadSound('bubl.wav');
+  tweetimg = loadImage('brady_tweet.png');
 
   //ok first node may not necessarily be author watch out for that
   
@@ -66,6 +68,8 @@ function setup() {
   histogram_y = (8*windowHeight/10)/load_factor;
   histogram_width = (8*windowWidth/30)/load_factor;
   histogram_height = (1*windowHeight/10)/load_factor;
+
+  
 } 
 
 function mouseClicked() {
@@ -89,7 +93,7 @@ function draw() {
  
   timescale = 120;
   
-  fill(200);
+  fill(150);
   textSize((windowHeight/40)/load_factor);
 
   text(formatTime(round(exp(adjFrame/timescale),1)), (windowWidth/30)/load_factor, (windowHeight/10)/load_factor);
@@ -98,7 +102,7 @@ function draw() {
 
   text("Reset [SPACE]", (windowWidth/30)/load_factor, (3*windowHeight/10)/load_factor);
 
-
+  image(tweetimg,(windowWidth/30)/load_factor, (3.5*windowHeight/10)/load_factor, 0.75*(windowWidth/3)/load_factor,0.75*(windowHeight/4)/load_factor );
   if (!pause)
   {
     adjFrame++;
@@ -361,7 +365,7 @@ function Network(x, y) {
     push();
     translate(this.position.x, this.position.y);
     fill(0);
-    strokeWeight(1);
+    //strokeWeight(1);
     for (var i = 0; i < this.connections.length; i++) {
       //maybe make it a function of the follower count
      if (this.connections[i].a.isSending)//(followerMap.get((this.connections[i].a.name)) >= 0.5*(followerMap.get(veryfirstguy)))
