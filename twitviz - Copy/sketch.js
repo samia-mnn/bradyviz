@@ -29,7 +29,9 @@ let end_time = 0;
 let bar_times = 0;
 const num_bars = 150;
 let hist_times = new Array(num_bars).fill(0);
-let hist_heights = new Array(num_bars).fill(0);
+let hist_heights_blue = new Array(num_bars).fill(0);
+let hist_heights_pink = new Array(num_bars).fill(0);
+
 let cur_bar = 0
 let tweetimg;
 
@@ -93,6 +95,7 @@ function draw() {
  
   timescale = 120;
   
+  noStroke();
   fill(150);
   textSize((windowHeight/40)/load_factor);
 
@@ -118,11 +121,15 @@ function draw() {
   for (let i=0; i < cur_bar; i++){
     xpos = int(map(i,0,num_bars,histogram_x,histogram_x+histogram_width)) 
     y1 = histogram_y+histogram_height
-    y2 = int(map(hist_heights[i],0,max_bar_height,histogram_y+histogram_height,histogram_y))
+    y2 = int(map(hist_heights_blue[i],0,max_bar_height,histogram_y+histogram_height,histogram_y))
+    y3 = int(map(hist_heights_pink[i],0,max_bar_height,histogram_y+histogram_height,histogram_y))
     //strokeWeight(10);
+    stroke(29, 161, 242);
     line(xpos,y1,xpos,y2)
+    stroke(200,154,222);
+    line(xpos, y2, xpos, y2-(y1-y3))
   }
-  console.log(hist_heights[cur_bar])
+  console.log(hist_heights_blue[cur_bar])
   if ( (hist_times[cur_bar] - round(exp(adjFrame/timescale),1))  <= 0 ){
     cur_bar = cur_bar + 1
   }
@@ -227,7 +234,9 @@ function restartNetwork()
   //rect(200, 600, 700, 700);
 
   cur_bar = 0
-  hist_heights = new Array(num_bars).fill(0)
+  hist_heights_blue = new Array(num_bars).fill(0)
+  hist_heights_pink = new Array(num_bars).fill(0)
+
 }
 
 function Connection(from, to,w) {
@@ -434,7 +443,15 @@ function Neuron(x, y, name, active, radius, time, isFirst) {
     //console.log("fire!!");
     //this.r = 64;
     this.isSending = true;
-    hist_heights[cur_bar]  = hist_heights[cur_bar] + 1
+    if (isFirst == 'second')
+    {
+       hist_heights_pink[cur_bar]  = hist_heights_pink[cur_bar] + 1
+    }
+    if (isFirst == 'other')
+    {
+      hist_heights_blue[cur_bar]  = hist_heights_blue[cur_bar] + 1
+
+    }
     for (var i = 0; i < this.connections.length; i++) {
       let rand = random(demotionDen);
       if (this.active && rand>demotionVal)
