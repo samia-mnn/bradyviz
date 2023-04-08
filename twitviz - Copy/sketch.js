@@ -12,7 +12,12 @@ var startpoint = 0;
 let pause = false;
 let adjFrame = 0;
 let popsound;
+
+//tweetset input values
 let demotionVal = 0;
+let tweetSet = 'BRADY';
+
+
 let demotionDen = 10;
 //make restart
 //pause
@@ -114,6 +119,10 @@ function draw() {
   text("Direct followers of original poster who engaged with tweet", (3/2)*(windowWidth/20)/load_factor, (2.1*windowHeight/10)/load_factor);
   text("Other accounts who engaged with tweet", (3/2)*(windowWidth/20)/load_factor, (3.1*windowHeight/10)/load_factor);
   text("Accounts who originally engaged with tweet, but would not under this level of demotion", (3/2)*(windowWidth/20)/load_factor, (4.1*windowHeight/10)/load_factor);
+  text("Time", (3/2)*(windowWidth/20)/load_factor, (9.2*windowHeight/10)/load_factor);
+ 
+  text("Number of Engagements", (windowWidth/30)/load_factor, (5.5*windowHeight/10)/load_factor);
+
 
   //text("Adjust Demotion", (windowWidth/30)/load_factor, (2*windowHeight/10)/load_factor);
 
@@ -147,7 +156,7 @@ function draw() {
     line(xpos, y1, xpos, y4);
     stroke(29, 161, 242);
     line(xpos,y1,xpos,y2);
-    stroke(121, 83, 169);
+    stroke(65, 105, 225);
     y5 = y2-(y1-y3);
     line(xpos, y2, xpos, y5);
  
@@ -543,7 +552,7 @@ function Neuron(x, y, name, active, radius, time, isFirst) {
       }
       if (this.isFirst == 'second')
       {
-        fill(121, 83, 169, 150);
+        fill(65, 105, 225, 150);
 
       }
       /*if (this.connections.length > 10)
