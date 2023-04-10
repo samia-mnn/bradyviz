@@ -6,24 +6,20 @@ const nameMap = new Map();
 const followerMap = new Map();
 const parentMap = new Map();
 const infoToLoadMap = new Map();
-//let slider;
 var names = [];
 var startpoint = 0;
+
+//pause value
 let pause = true;
 let adjFrame = -1;
 let popsound;
 let firstClick = true;
-
 //tweetset input values
 let demotionVal = 0;
 let tweetSet = 'BRADY';
 
-
 let demotionDen = 10;
-//make restart
-//pause
-//click to end
-//histogram
+
 let histogram_x = 0;
 let histogram_y = 0;
 let histogram_width = 0;
