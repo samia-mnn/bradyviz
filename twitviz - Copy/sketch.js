@@ -9,9 +9,10 @@ const infoToLoadMap = new Map();
 //let slider;
 var names = [];
 var startpoint = 0;
-let pause = false;
-let adjFrame = 0;
+let pause = true;
+let adjFrame = -1;
 let popsound;
+let firstClick = true;
 
 //tweetset input values
 let demotionVal = 0;
@@ -91,6 +92,16 @@ function setup() {
 function mouseClicked() {
 
   pause = !pause;
+
+  if (firstClick)
+  {
+  network.update();
+ 
+  network.feedforward(1, 1);
+  newNode.fire();
+  firstClick = false;
+  }
+ 
   
 
 }
@@ -122,6 +133,11 @@ function draw() {
   text("Time", (3/2)*(windowWidth/20)/load_factor, (9.2*windowHeight/10)/load_factor);
  
   text("Number of Engagements", (windowWidth/30)/load_factor, (5.5*windowHeight/10)/load_factor);
+  if(pause)
+  {
+    fill(200,200,200, 100);
+    triangle((4.5/10)*windowWidth, (2/5)*windowHeight,(4.5/10)*windowWidth, (3/5)*windowHeight, (5.5/10)*windowWidth, (1/2)*windowHeight);
+  }
 
 
   //text("Adjust Demotion", (windowWidth/30)/load_factor, (2*windowHeight/10)/load_factor);
@@ -246,6 +262,8 @@ function restartNetwork()
 
 
 
+  network.displayConnections();
+  network.display();
 
 
   //normalize distances (iterate through and make everything within a certain radius from another)
@@ -256,12 +274,7 @@ function restartNetwork()
   {
   //network.orient();
   }
-  network.update();
- 
-  network.displayConnections();
-  network.display();
-  network.feedforward(1, 1);
-  newNode.fire();
+  
   //fill(200,200,200);
   //rect(200, 600, 700, 700);
 
