@@ -10,7 +10,7 @@ var names = [];
 var startpoint = 0;
 
 //pause value
-let pause = true;
+let pause = false;
 let adjFrame = -1;
 let popsound;
 let firstClick = true;
@@ -85,7 +85,7 @@ function setup() {
   
 } 
 
-function mouseClicked() {
+/*function mouseClicked() {
 
   pause = !pause;
 
@@ -108,7 +108,7 @@ function keyPressed(){
     restartNetwork();
     adjFrame = 0;
   }
-}
+}*/
 
 
 function draw() { 
